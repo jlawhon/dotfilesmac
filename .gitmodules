@@ -1,0 +1,3 @@
+[submodule ".config/eza/eza-themes"]
+	path = .config/eza/eza-themes
+	url = https://github.com/eza-community/eza-themes.git

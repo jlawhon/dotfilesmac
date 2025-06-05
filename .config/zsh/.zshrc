@@ -1,0 +1,70 @@
+# source global shell alias & variables files
+[ -f "$XDG_CONFIG_HOME/shell/alias" ] && source "$XDG_CONFIG_HOME/shell/alias"
+[ -f "$XDG_CONFIG_HOME/shell/vars" ] && source "$XDG_CONFIG_HOME/shell/vars"
+
+# export HISTFILE="$XDG_CACHE_HOME/zsh/.zsh_history"
+# export ZSH_COMPDUMP="$XDG_CACHE_HOME/$HOME/zsh/.zcompdump"
+
+# load modules
+zmodload zsh/complist
+autoload -U compinit && compinit -d
+autoload -U colors && colors
+# compinit -d $ZSH_COMPDUMP
+#zstyle ':completion:*' use-cache true
+#zstyle ':completion:*' cache-path $XDG_CACHE_HOME/zsh/
+
+
+# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+fpath=(/Users/jim/.docker/completions $fpath)
+autoload -Uz compinit
+compinit
+# End of Docker CLI completions
+
+
+# Setup keys for  Mac
+bindkey -e
+bindkey '^[[1;5C' forward-word
+bindkey '^[[1;5D' backward-word
+
+# Setup prompt
+NEWLINE=$'\n'
+PROMPT="${NEWLINE}%K{#2E3440}%F{#E5E9F0}$(date +%_I:%M%P) %K{#3b4252}%F{#ECEFF4} %m %K{#4c566a} %~ %f%k ❯ "
+
+# Setup Homebrew 
+eval "$(/opt/homebrew/bin/brew shellenv)"
+
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
+
+# zoxide ls replacement
+eval "$(zoxide init zsh)"
+export FZF_DEFAULT_OPTS=" \
+--color=bg+:#313244,bg:#1E1E2E,spinner:#F5E0DC,hl:#F38BA8 \
+--color=fg:#CDD6F4,header:#F38BA8,info:#CBA6F7,pointer:#F5E0DC \
+--color=marker:#B4BEFE,fg+:#CDD6F4,prompt:#CBA6F7,hl+:#F38BA8 \
+--color=selected-bg:#45475A \
+--color=border:#313244,label:#CDD6F4"
+
+# Plugins
+#
+# plugins=(git zsh-autosuggestions zsh-syntax-highlighting web-search)
+
+# autosuggestions
+# requires zsh-autosuggestions
+# source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
+source $HOMEBREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# syntax highlighting
+# requires zsh-syntax-highlighting package
+# source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source $HOMEBREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+
+
+# Yazi
+function y() {
+	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")" cwd
+	yazi "$@" --cwd-file="$tmp"
+	IFS= read -r -d '' cwd < "$tmp"
+	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
+	rm -f -- "$tmp"
+}
