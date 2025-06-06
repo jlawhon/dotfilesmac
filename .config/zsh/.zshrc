@@ -14,26 +14,25 @@ autoload -U colors && colors
 #zstyle ':completion:*' cache-path $XDG_CACHE_HOME/zsh/
 
 
-# The following lines have been added by Docker Desktop to enable Docker CLI completions.
+# Docker - The following lines have been added by Docker Desktop to enable Docker CLI completions.
 fpath=(/Users/jim/.docker/completions $fpath)
 autoload -Uz compinit
 compinit
 # End of Docker CLI completions
 
-
-# Setup keys for  Mac
+# Set keys for  Mac
 bindkey -e
 bindkey '^[[1;5C' forward-word
 bindkey '^[[1;5D' backward-word
 
-# Setup prompt
+# Set prompt
 NEWLINE=$'\n'
 PROMPT="${NEWLINE}%K{#2E3440}%F{#E5E9F0}$(date +%_I:%M%P) %K{#3b4252}%F{#ECEFF4} %m %K{#4c566a} %~ %f%k ❯ "
 
 # Setup Homebrew 
 eval "$(/opt/homebrew/bin/brew shellenv)"
 
-# Set up fzf key bindings and fuzzy completion
+# Setup fzf key bindings and fuzzy completion
 source <(fzf --zsh)
 
 # zoxide ls replacement
@@ -67,4 +66,21 @@ function y() {
 	IFS= read -r -d '' cwd < "$tmp"
 	[ -n "$cwd" ] && [ "$cwd" != "$PWD" ] && builtin cd -- "$cwd"
 	rm -f -- "$tmp"
+}
+# -- Use fd instead of fzf --
+
+export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
+
+# Use fd (https://github.com/sharkdp/fd) for listing path candidates.
+# - The first argument to the function ($1) is the base path to start traversal
+# - See the source code (completion.{bash,zsh}) for the details.
+_fzf_compgen_path() {
+  fd --hidden --exclude .git . "$1"
+}
+
+# Use fd to generate the list for directory completion
+_fzf_compgen_dir() {
+  fd --type=d --hidden --exclude .git . "$1"
 }
