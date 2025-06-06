@@ -1,8 +1,7 @@
 # misc
 #
 alias v="nvim"
-
-
+alias vi="nvim"
 
 # zoxide - cd replacement
 alias cd="z"
