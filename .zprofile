@@ -1,8 +1,21 @@
 #!/bin/sh
-# env vars to set on login, zsh settings in ~/config/zsh/.zshrc
-# read first
+# User shell config load order: 
+# .zshenv → .zprofile → .zshrc → .zlogin → .zlogout
+#
+# -- .zshenv - environment variables, loaded once on login shell.  Common env vars could/should go here. Considered optional.
+# -- .zprofile - env config for all login shells, interactive or not. EDITOR, PATH, PAGER should go here or .zshenv
+# -- .zshrc - env config for interactive shells
+#
 
-# default programs
+# XDG base dir specification
+export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_DATA_HOME="$HOME/.local/share"
+export XDG_CACHE_HOME="$HOME/.cache"
+
+# Extend PATH
+export PATH="$XDG_CONFIG_HOME/scripts:$PATH"
+
+# Default programs
 export EDITOR="nvim"
 # export TERM="st"
 # export TERMINAL="st"
@@ -11,36 +24,39 @@ export EDITOR="nvim"
 # export BROWSER2="librewolf"
 # export DISPLAY=:0 # useful for some scripts
 
-# follow XDG base dir specification
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_CACHE_HOME="$HOME/.cache"
+# Relocate config files
 
-# bootstrap .zshrc to ~/.config/zsh/.zshrc, any other zsh config files can also reside here
+# Zsh
 export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
-# history files
+# Eza
+export EZA_CONFIG_DIR="$XDG_CONFIG_HOME/eza"
+
+# Relocate history files
 export LESSHISTFILE="$XDG_CACHE_HOME/less_history"
 export PYTHON_HISTORY="$XDG_DATA_HOME/python/history"
 # export HISTFILE="$XDG_CACHE_HOME/zsh/.zsh_history"
 
-
-# add scripts to path
-export PATH="$XDG_CONFIG_HOME/scripts:$PATH"
-
-# moving other files and some other vars
-
+#
+# Plugin/extension/etc configs
+#
+ 
+# zsh syntax highlighter
 export DATE=$(date "+%A, %B %e  %_I:%M%P")
 export ZSH_HIGHLIGHT_HIGHLIGHTERS_DIR=/opt/homebrew/share/zsh-syntax-highlighting/highlighters
 
+# Bat config 
 export BAT_THEME=Nord
 
-export EZA_CONFIG_DIR="$XDG_CONFIG_HOME/eza"
-
+# Fzf config
 export FZF_DEFAULT_OPTS="--style minimal --color 16 --layout=reverse --height 30% --preview='bat -p --color=always {}'"
 export FZF_CTRL_R_OPTS="--style minimal --color 16 --info inline --no-sort --no-preview" # separate opts for history widget
 export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
 export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
+
+#
+# MISC cruft, weed out/reuse
+#
 
 # export XINITRC="$XDG_CONFIG_HOME/x11/xinitrc"
 # export XPROFILE="$XDG_CONFIG_HOME/x11/xprofile"
@@ -63,6 +79,7 @@ export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
 # export WINEPREFIX="$XDG_DATA_HOME/wineprefixes/default"
 
 
+# Less config
 # export MANPAGER="less -R --use-color -Dd+r -Du+b" # colored man pages
 
 # colored less + termcap vars
@@ -75,4 +92,4 @@ export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
 # export LESS_TERMCAP_us="$(printf '%b' '[1;32m')"
 # export LESS_TERMCAP_ue="$(printf '%b' '[0m')"
 
-# eval "$(/opt/homebrew/bin/brew shellenv)"
+#h eval "$(/opt/homebrew/bin/brew shellenv)"

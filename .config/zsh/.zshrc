@@ -1,6 +1,17 @@
+# User shell config load order: 
+# .zshenv → .zprofile → .zshrc → .zlogin → .zlogout
+#
+# -- .zshenv - environment variables, loaded once on login shell.  Common env vars could/should go here. Considered optional.
+# -- .zprofile - env config for all login shells, interactive or not. EDITOR, PATH, PAGER should go here or .zshenv
+# -- .zshrc - env config for interactive shells
+#
+
 # source global shell alias & variables files
 [ -f "$XDG_CONFIG_HOME/shell/alias" ] && source "$XDG_CONFIG_HOME/shell/alias"
 [ -f "$XDG_CONFIG_HOME/shell/vars" ] && source "$XDG_CONFIG_HOME/shell/vars"
+
+# starship config home
+# export STARSHIP_CONFIG="$XDG_CONFIG_HOME/starship/starship.toml"
 
 # export HISTFILE="$XDG_CACHE_HOME/zsh/.zsh_history"
 # export ZSH_COMPDUMP="$XDG_CACHE_HOME/$HOME/zsh/.zcompdump"
@@ -35,14 +46,29 @@ eval "$(/opt/homebrew/bin/brew shellenv)"
 # Setup fzf key bindings and fuzzy completion
 source <(fzf --zsh)
 
-# zoxide ls replacement
-eval "$(zoxide init zsh)"
-export FZF_DEFAULT_OPTS=" \
+#export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git "
+#export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
+#export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
+
+#export FZF_DEFAULT_OPTS="--height 50% --layout=default --border --color=hl:#2dd4bf"
+
+# Setup fzf previews
+#export FZF_CTRL_T_OPTS="--preview 'bat --color=always -n --line-range :500 {}'"
+#export FZF_ALT_C_OPTS="--preview 'eza --icons=always --tree --color=always {} | head -200'"
+
+# fzf preview for tmux
+# export FZF_TMUX_OPTS=" -p90%,70% "  
+
+
+ export FZF_DEFAULT_OPTS=" \
 --color=bg+:#313244,bg:#1E1E2E,spinner:#F5E0DC,hl:#F38BA8 \
 --color=fg:#CDD6F4,header:#F38BA8,info:#CBA6F7,pointer:#F5E0DC \
 --color=marker:#B4BEFE,fg+:#CDD6F4,prompt:#CBA6F7,hl+:#F38BA8 \
 --color=selected-bg:#45475A \
 --color=border:#313244,label:#CDD6F4"
+
+# zoxide ls replacement
+eval "$(zoxide init zsh)"
 
 # Plugins
 #
@@ -84,3 +110,9 @@ _fzf_compgen_path() {
 _fzf_compgen_dir() {
   fd --type=d --hidden --exclude .git . "$1"
 }
+
+# eval "$(starship init zsh)"
+# eval "$(oh-my-posh init zsh)"
+if [ "$TERM_PROGRAM" != "Apple_Terminal" ]; then
+  eval "$(oh-my-posh init zsh --config $XDG_CONFIG_HOME/ohmyposh/omp.toml)"
+fi
