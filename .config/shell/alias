@@ -13,13 +13,13 @@ alias cd="z"
 # change dir aliases
 alias ..="cd .."
 alias ...="cd ..; cd .."
-alias -="cd -"
+alias -- -="cd -"
 
 # weather
 alias we='curl wttr.in/Dal\?u\&format="%l:+%c+%h+%t+%f\n"'
 
 # eza - ls replacement
-alias ls='eza'
+alias ls='eza --icons=always'
 alias l='eza -lF --git --group-directories-first'
 alias ll='eza -lah --git --group-directories-first'
 alias llm='eza -al --sort=modified --git --group-directories-first --octal-permissions'
@@ -43,3 +43,7 @@ alias l.="eza -a | grep -E '^\.'"
 #alias lS='eza -1 --color=always --group-directories-first --icons'
 #alias lt='eza --tree --level=2 --color=always --group-directories-first --icons'
 #alias l.="eza -a | grep -E '^\.'"
+
+# edit/reload .zshrc
+alias reload-zsh="source ~/.config/zsh/.zshrc"
+alias edit-zsh="nvim ~/.config/zsh/.zshrc"

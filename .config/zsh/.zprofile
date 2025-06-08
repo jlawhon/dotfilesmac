@@ -7,10 +7,10 @@
 # -- .zshrc - env config for interactive shells
 #
 
-# XDG base dir specification
-export XDG_CONFIG_HOME="$HOME/.config"
-export XDG_DATA_HOME="$HOME/.local/share"
-export XDG_CACHE_HOME="$HOME/.cache"
+# XDG base dir specification - moved to .zshenv
+# export XDG_CONFIG_HOME="$HOME/.config"
+# export XDG_DATA_HOME="$HOME/.local/share"
+# export XDG_CACHE_HOME="$HOME/.cache"
 
 # Extend PATH
 export PATH="$XDG_CONFIG_HOME/scripts:$PATH"
@@ -26,8 +26,8 @@ export EDITOR="nvim"
 
 # Relocate config files
 
-# Zsh
-export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+# moved to .zshrc 
+# export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
 
 # Eza
 export EZA_CONFIG_DIR="$XDG_CONFIG_HOME/eza"
