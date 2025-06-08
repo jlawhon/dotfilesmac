@@ -6,6 +6,28 @@
 # -- .zshrc - env config for interactive shells
 #
 
+# zsh config settings 
+
+# cd command auto pushd
+setopt autopushd
+
+# case insensitive globbing
+setopt NO_CASE_GLOB
+
+# enable extended history, shared history, append history, incrementally append history, cleanup options
+setopt EXTENDED_HISTORY
+setopt SHARE_HISTORY 
+setopt APPEND_HISTORY 
+setopt INC_APPEND_HISTORY
+setopt HIST_EXPIRE_DUPS_FIRST
+setopt HIST_FIND_NO_DUPS
+setopt HIST_REDUCE_BLANKS
+
+# enable autocorrections
+setopt CORRECT 
+setopt CORRECT_ALL
+
+
 # source global shell alias & variables files
 [ -f "$XDG_CONFIG_HOME/shell/alias" ] && source "$XDG_CONFIG_HOME/shell/alias"
 [ -f "$XDG_CONFIG_HOME/shell/vars" ] && source "$XDG_CONFIG_HOME/shell/vars"

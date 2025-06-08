@@ -3,12 +3,17 @@
 alias v="nvim"
 alias vi="nvim"
 
+# mkdir aliases
+alias md='mkdir -p'
+alias rd=rmdir
+
 # zoxide - cd replacement
 alias cd="z"
 
 # change dir aliases
 alias ..="cd .."
 alias ...="cd ..; cd .."
+alias -="cd -"
 
 # weather
 alias we='curl wttr.in/Dal\?u\&format="%l:+%c+%h+%t+%f\n"'
