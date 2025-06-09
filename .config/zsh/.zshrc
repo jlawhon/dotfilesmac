@@ -138,4 +138,4 @@ eval $(thefuck --alias)
 eval $(thefuck --alias fk)
 
 # atuin history search
-eval "$(atuin init zsh)"
+eval "$(atuin init zsh --disable-up-arrow)"
