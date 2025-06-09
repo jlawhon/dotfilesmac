@@ -2,3 +2,7 @@ lazy-lock.json
 .zsh_history
 .zcompdump
 .config/tmux/plugins/*
+fzf
+raycast
+thefuck
+wireguard
